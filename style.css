@@ -31,3 +31,8 @@ h1 {
 .input_2 {
   padding-bottom: 2%;
 }
+
+#list_adder li {
+  padding-top: 3%;
+  list-style: none;
+}

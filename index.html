@@ -12,13 +12,13 @@
       <h1>My checklist</h1>
       <div class="input_1">
         <label for="">Enter new task Name</label>
-        <input type="text" />
-        <button>Add Item</button>
+        <input type="text" id="input_task" required />
+        <button id="add_item">Add Item</button>
       </div>
       <div class="input_2">
         <label for="">Search Task by Name</label>
         <input type="text" />
-        <button>Add Item</button>
+        <button id="search-item">Add Item</button>
       </div>
       <div class="option_buttons">
         <button>See Trashed Task</button>
@@ -26,6 +26,9 @@
         <button>See Completed Task</button>
         <button>See Active Tasks</button>
       </div>
+      <ul id="list_adder"></ul>
     </div>
+
+    <script src="script.js"></script>
   </body>
 </html>
