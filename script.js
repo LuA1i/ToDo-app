@@ -2,14 +2,6 @@ const addButton = document.querySelector('#add_item')
 const emptyList = document.querySelector('#list_adder')
 const inputField = document.querySelector('#input_task')
 
-function checkboxCross(e) {
-  const checkbox = e.target
-
-  const listItem = checkbox.parentNode
-
-  listItem.classList.toggle('completed', checkbox.checked)
-}
-
 addButton.addEventListener('click', function () {
   const inputFieldValue = inputField.value.trim()
 
