@@ -36,3 +36,7 @@ h1 {
   padding-top: 3%;
   list-style: none;
 }
+
+.completed {
+  text-decoration: line-through;
+}
