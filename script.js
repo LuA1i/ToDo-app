@@ -13,12 +13,18 @@ addButton.addEventListener('click', function () {
 
   if (inputFieldValue !== '') {
     const checkBox = document.createElement('input')
+    const deleteButton = document.createElement('button')
+
+    deleteButton.innerHTML = 'Delete Task'
+
     checkBox.type = 'checkbox'
     checkBox.style.marginRight = '5px'
+    deleteButton.style.marginLeft = '65%'
 
     const addlist = document.createElement('li')
     addlist.appendChild(checkBox)
     addlist.appendChild(document.createTextNode(inputFieldValue))
+    addlist.appendChild(deleteButton)
 
     checkBox.addEventListener('click', checkboxCross)
 
