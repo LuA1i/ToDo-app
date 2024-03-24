@@ -5,6 +5,7 @@ const activeTaskbtn = document.querySelector('#see_active_tasks')
 const completedTaskbtn = document.querySelector('#see_completed_tasks')
 const allTaskbtn = document.querySelector('#see_all_tasks')
 const searchButton = document.querySelector('#search_item')
+const trashedTaskbtn = document.querySelector('#see_trashed_tasks')
 
 // --------------------------------------------------------------Saving Tasks Locally------------------------------------------//
 const todos = JSON.parse(localStorage.getItem('todos')) || []
@@ -25,13 +26,13 @@ function checkboxCross(e) {
 function loadTodos() {
   todos.forEach((checkList, index) => {
     const checkBox = document.createElement('input')
-    const deleteButton = document.createElement('button')
+    const trashButton = document.createElement('button')
 
-    deleteButton.innerHTML = 'Trash Task'
+    trashButton.innerHTML = 'Trash Task'
 
     checkBox.type = 'checkbox'
     checkBox.style.marginRight = '5px'
-    deleteButton.style.marginLeft = '65%'
+    trashButton.style.marginLeft = '65%'
 
     const addlist = document.createElement('li')
     addlist.setAttribute('data-index', index)
@@ -39,12 +40,19 @@ function loadTodos() {
 
     addlist.appendChild(checkBox)
     addlist.appendChild(document.createTextNode(checkList.name))
-    addlist.appendChild(deleteButton)
+    addlist.appendChild(trashButton)
 
     checkBox.checked = checkList.completed
     addlist.classList.toggle('completed', checkList.completed)
 
     checkBox.addEventListener('click', checkboxCross)
+    trashButton.addEventListener('click', function () {
+      const listItem = this.parentNode
+      const todoIndex = listItem.getAttribute('data-index')
+      todos[todoIndex].trashed = true
+      listItem.remove()
+      saveTodos()
+    })
 
     emptyList.appendChild(addlist)
   })
@@ -58,13 +66,13 @@ function showActiveTask() {
   const activeTasks = todos.filter((todo) => !todo.completed)
   activeTasks.forEach((checkList, index) => {
     const checkBox = document.createElement('input')
-    const deleteButton = document.createElement('button')
+    const trashButton = document.createElement('button')
 
-    deleteButton.innerHTML = 'Trash Task'
+    trashButton.innerHTML = 'Trash Task'
 
     checkBox.type = 'checkbox'
     checkBox.style.marginRight = '5px'
-    deleteButton.style.marginLeft = '65%'
+    trashButton.style.marginLeft = '65%'
 
     const addlist = document.createElement('li')
     addlist.setAttribute('data-index', index)
@@ -72,7 +80,7 @@ function showActiveTask() {
 
     addlist.appendChild(checkBox)
     addlist.appendChild(document.createTextNode(checkList.name))
-    addlist.appendChild(deleteButton)
+    addlist.appendChild(trashButton)
 
     checkBox.checked = checkList.completed
     addlist.classList.toggle('completed', checkList.completed)
@@ -91,13 +99,13 @@ function showCompletedTask() {
 
   completedTask.forEach((checkList, index) => {
     const checkBox = document.createElement('input')
-    const deleteButton = document.createElement('button')
+    const trashButton = document.createElement('button')
 
-    deleteButton.innerHTML = 'Trash Task'
+    trashButton.innerHTML = 'Trash Task'
 
     checkBox.type = 'checkbox'
     checkBox.style.marginRight = '5px'
-    deleteButton.style.marginLeft = '65%'
+    trashButton.style.marginLeft = '65%'
 
     const addlist = document.createElement('li')
     addlist.setAttribute('data-index', index)
@@ -105,7 +113,7 @@ function showCompletedTask() {
 
     addlist.appendChild(checkBox)
     addlist.appendChild(document.createTextNode(checkList.name))
-    addlist.appendChild(deleteButton)
+    addlist.appendChild(trashButton)
 
     checkBox.checked = checkList.completed
     addlist.classList.toggle('completed', checkList.completed)
@@ -115,8 +123,47 @@ function showCompletedTask() {
     emptyList.appendChild(addlist)
   })
 }
+// --------------------------------------------------------------Showing Trashed Task------------------------------------------//
+trashedTaskbtn.addEventListener('click', showTrashedTasks)
 
-loadTodos()
+function showTrashedTasks() {
+  emptyList.innerHTML = ''
+
+  const trashedTasks = todos.filter((todo) => todo.trashed)
+
+  trashedTasks.forEach((checkList, index) => {
+    const checkBox = document.createElement('input')
+    const restoreButton = document.createElement('button')
+
+    restoreButton.innerHTML = 'Restore Task'
+
+    checkBox.type = 'checkbox'
+    checkBox.style.marginRight = '5px'
+    restoreButton.style.marginLeft = '65%'
+
+    const addlist = document.createElement('li')
+    addlist.setAttribute('data-index', index)
+    addlist.classList.add('list-item')
+
+    addlist.appendChild(checkBox)
+    addlist.appendChild(document.createTextNode(checkList.name))
+    addlist.appendChild(restoreButton)
+
+    checkBox.checked = checkList.completed
+    addlist.classList.toggle('completed', checkList.completed)
+
+    checkBox.addEventListener('click', checkboxCross)
+
+    restoreButton.addEventListener('click', function () {
+      todos[index].trashed = false
+      showTrashedTasks()
+      saveTodos()
+    })
+
+    emptyList.appendChild(addlist)
+  })
+}
+
 // --------------------------------------------------------------Showing Completed Task------------------------------------------//
 
 allTaskbtn.addEventListener('click', showAllTasks)
@@ -126,13 +173,13 @@ function showAllTasks() {
 
   todos.forEach((checkList, index) => {
     const checkBox = document.createElement('input')
-    const deleteButton = document.createElement('button')
+    const trashButton = document.createElement('button')
 
-    deleteButton.innerHTML = 'Trash Task'
+    trashButton.innerHTML = 'Trash Task'
 
     checkBox.type = 'checkbox'
     checkBox.style.marginRight = '5px'
-    deleteButton.style.marginLeft = '65%'
+    trashButton.style.marginLeft = '65%'
 
     const addlist = document.createElement('li')
     addlist.setAttribute('data-index', index)
@@ -140,7 +187,7 @@ function showAllTasks() {
 
     addlist.appendChild(checkBox)
     addlist.appendChild(document.createTextNode(checkList.name))
-    addlist.appendChild(deleteButton)
+    addlist.appendChild(trashButton)
 
     checkBox.checked = checkList.completed
     addlist.classList.toggle('completed', checkList.completed)
@@ -168,13 +215,13 @@ function searchTask() {
 
   filteredTasks.forEach((checkList, index) => {
     const checkBox = document.createElement('input')
-    const deleteButton = document.createElement('button')
+    const trashButton = document.createElement('button')
 
-    deleteButton.innerHTML = 'Trash Task'
+    trashButton.innerHTML = 'Trash Task'
 
     checkBox.type = 'checkbox'
     checkBox.style.marginRight = '5px'
-    deleteButton.style.marginLeft = '65%'
+    trashButton.style.marginLeft = '65%'
 
     const addlist = document.createElement('li')
     addlist.setAttribute('data-index', index)
@@ -182,7 +229,7 @@ function searchTask() {
 
     addlist.appendChild(checkBox)
     addlist.appendChild(document.createTextNode(checkList.name))
-    addlist.appendChild(deleteButton)
+    addlist.appendChild(trashButton)
 
     checkBox.checked = checkList.completed
     addlist.classList.toggle('completed', checkList.completed)
@@ -192,25 +239,25 @@ function searchTask() {
     emptyList.appendChild(addlist)
   })
 }
-
+loadTodos()
 // --------------------------------------------------------------Add Tasks Button------------------------------------------//
 addButton.addEventListener('click', function () {
   const inputFieldValue = inputField.value.trim()
 
   if (inputFieldValue !== '') {
     const checkBox = document.createElement('input')
-    const deleteButton = document.createElement('button')
+    const trashButton = document.createElement('button')
 
-    deleteButton.innerHTML = 'Trash Task'
+    trashButton.innerHTML = 'Trash Task'
 
     checkBox.type = 'checkbox'
     checkBox.style.marginRight = '5px' // going add this to css remove here
-    deleteButton.style.marginLeft = '65%' // going add this to css remove here'
+    trashButton.style.marginLeft = '65%' // going add this to css remove here'
 
     const addlist = document.createElement('li')
     addlist.appendChild(checkBox)
     addlist.appendChild(document.createTextNode(inputFieldValue))
-    addlist.appendChild(deleteButton)
+    addlist.appendChild(trashButton)
 
     checkBox.addEventListener('click', checkboxCross)
 
