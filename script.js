@@ -196,6 +196,21 @@ function showAllTasks() {
     checkBox.addEventListener('click', checkboxCross)
 
     emptyList.appendChild(addlist)
+
+    trashButton.addEventListener('click', function () {
+      const todoIndex = parseInt(addlist.getAttribute('data-index'))
+
+      if (!todos[todoIndex].trashed) {
+        todos[todoIndex].trashed = true
+        this.innerHTML = 'Restore Task'
+      } else {
+        todos[todoIndex].trashed = false
+        this.innerHTML = 'Trash Task'
+      }
+      saveTodos()
+      showActiveTask()
+    })
+    emptyList.appendChild(addlist)
   })
 }
 // --------------------------------------------------------------Search for Tasks------------------------------------------//
