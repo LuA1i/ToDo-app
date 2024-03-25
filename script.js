@@ -63,7 +63,7 @@ activeTaskbtn.addEventListener('click', showActiveTask)
 function showActiveTask() {
   emptyList.innerHTML = ''
 
-  const activeTasks = todos.filter((todo) => !todo.completed)
+  const activeTasks = todos.filter((todo) => !todo.completed && !todo.trashed)
   activeTasks.forEach((checkList, index) => {
     const checkBox = document.createElement('input')
     const trashButton = document.createElement('button')
@@ -171,7 +171,8 @@ allTaskbtn.addEventListener('click', showAllTasks)
 function showAllTasks() {
   emptyList.innerHTML = ''
 
-  todos.forEach((checkList, index) => {
+  const allTask = todos.filter((todo) => !todo.trashed)
+  allTask.forEach((checkList, index) => {
     const checkBox = document.createElement('input')
     const trashButton = document.createElement('button')
 
