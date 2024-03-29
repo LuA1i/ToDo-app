@@ -23,6 +23,11 @@ function checkboxCross(e) {
   saveTodos()
 }
 
+function deleteTask(index) {
+  todos.splice(index, 1)
+  saveTodos()
+}
+
 function loadTodos() {
   todos.forEach((checkList, index) => {
     const checkBox = document.createElement('input')
@@ -49,14 +54,15 @@ function loadTodos() {
     trashButton.addEventListener('click', function () {
       const listItem = this.parentNode
       const todoIndex = listItem.getAttribute('data-index')
-      todos[todoIndex].trashed = true
       listItem.remove()
-      saveTodos()
+      deleteTask()
     })
 
     emptyList.appendChild(addlist)
   })
-} // --------------------------------------------------------------Showing Active Task--------------------------------------------//
+}
+
+// --------------------------------------------------------------Showing Active Task--------------------------------------------//
 
 activeTaskbtn.addEventListener('click', showActiveTask)
 
@@ -123,7 +129,9 @@ function showCompletedTask() {
     emptyList.appendChild(addlist)
   })
 }
+
 // --------------------------------------------------------------Showing Trashed Task------------------------------------------//
+
 trashedTaskbtn.addEventListener('click', showTrashedTasks)
 
 function showTrashedTasks() {
