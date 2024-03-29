@@ -270,6 +270,12 @@ addButton.addEventListener('click', function () {
 
     checkBox.addEventListener('click', checkboxCross)
 
+    trashButton.addEventListener('click', function () {
+      const listItem = this.parentNode
+      const todoIndex = listItem.getAttribute('data-index')
+      listItem.remove()
+      deleteTask(todoIndex)
+    })
     emptyList.appendChild(addlist)
     inputField.value = ''
     todos.push({ name: inputFieldValue, completed: false })
