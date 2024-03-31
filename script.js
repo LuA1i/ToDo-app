@@ -51,6 +51,8 @@ function loadTodos() {
     addlist.classList.toggle('completed', checkList.completed)
 
     checkBox.addEventListener('click', checkboxCross)
+
+    
     trashButton.addEventListener('click', function () {
       const listItem = this.parentNode
       const todoIndex = listItem.getAttribute('data-index')
@@ -93,6 +95,13 @@ function showActiveTask() {
 
     checkBox.addEventListener('click', checkboxCross)
 
+    trashButton.addEventListener('click', function () {
+      const listItem = this.parentNode
+      const todoIndex = listItem.getAttribute('data-index')
+      listItem.remove()
+      deleteTask(todoIndex)
+    })
+
     emptyList.appendChild(addlist)
   })
 }
@@ -126,46 +135,12 @@ function showCompletedTask() {
 
     checkBox.addEventListener('click', checkboxCross)
 
-    emptyList.appendChild(addlist)
-  })
-}
 
-// --------------------------------------------------------------Showing Trashed Task------------------------------------------//
-
-trashedTaskbtn.addEventListener('click', showTrashedTasks)
-
-function showTrashedTasks() {
-  emptyList.innerHTML = ''
-
-  const trashedTasks = todos.filter((todo) => todo.trashed)
-
-  trashedTasks.forEach((checkList, index) => {
-    const checkBox = document.createElement('input')
-    const restoreButton = document.createElement('button')
-
-    restoreButton.innerHTML = 'Restore Task'
-
-    checkBox.type = 'checkbox'
-    checkBox.style.marginRight = '5px'
-    restoreButton.style.marginLeft = '65%'
-
-    const addlist = document.createElement('li')
-    addlist.setAttribute('data-index', index)
-    addlist.classList.add('list-item')
-
-    addlist.appendChild(checkBox)
-    addlist.appendChild(document.createTextNode(checkList.name))
-    addlist.appendChild(restoreButton)
-
-    checkBox.checked = checkList.completed
-    addlist.classList.toggle('completed', checkList.completed)
-
-    checkBox.addEventListener('click', checkboxCross)
-
-    restoreButton.addEventListener('click', function () {
-      todos[index].trashed = false
-      showTrashedTasks()
-      saveTodos()
+    trashButton.addEventListener('click', function () {
+      const listItem = this.parentNode
+      const todoIndex = listItem.getAttribute('data-index')
+      listItem.remove()
+      deleteTask(todoIndex)
     })
 
     emptyList.appendChild(addlist)
@@ -202,6 +177,13 @@ function showAllTasks() {
     addlist.classList.toggle('completed', checkList.completed)
 
     checkBox.addEventListener('click', checkboxCross)
+
+    trashButton.addEventListener('click', function () {
+      const listItem = this.parentNode
+      const todoIndex = listItem.getAttribute('data-index')
+      listItem.remove()
+      deleteTask(todoIndex)
+    })
 
     emptyList.appendChild(addlist)
   })
