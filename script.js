@@ -14,8 +14,8 @@ function saveTodos() {
   localStorage.setItem('todos', JSON.stringify(todos))
 }
 
-function checkboxCross(e) {
-  const checkbox = e.target
+function checkboxCross(event) {
+  const checkbox = event.target
   const listItem = checkbox.parentNode
   const todoIndex = listItem.getAttribute('data-index')
   todos[todoIndex].completed = checkbox.checked
@@ -24,12 +24,15 @@ function checkboxCross(e) {
 }
 
 function deleteTask(index) {
-  todos.splice(index, 1)
+  todos[index].trashed = true
   saveTodos()
 }
 
 function loadTodos() {
-  todos.forEach((checkList, index) => {
+  emptyList.innerHTML = ''
+  const activeTasks = todos.filter((todo) => !todo.completed && !todo.trashed)
+
+  activeTasks.forEach((checkList, index) => {
     const checkBox = document.createElement('input')
     const trashButton = document.createElement('button')
 
@@ -52,12 +55,11 @@ function loadTodos() {
 
     checkBox.addEventListener('click', checkboxCross)
 
-    
     trashButton.addEventListener('click', function () {
       const listItem = this.parentNode
       const todoIndex = listItem.getAttribute('data-index')
       listItem.remove()
-      deleteTask()
+      deleteTask(todoIndex)
     })
 
     emptyList.appendChild(addlist)
@@ -135,7 +137,6 @@ function showCompletedTask() {
 
     checkBox.addEventListener('click', checkboxCross)
 
-
     trashButton.addEventListener('click', function () {
       const listItem = this.parentNode
       const todoIndex = listItem.getAttribute('data-index')
@@ -147,6 +148,59 @@ function showCompletedTask() {
   })
 }
 
+trashedTaskbtn.addEventListener('click', showTrashedTasks)
+
+function showTrashedTasks() {
+  emptyList.innerHTML = ''
+
+  const trashedTasks = todos.filter((todo) => todo.trashed)
+
+  trashedTasks.forEach((checkList, index) => {
+    const checkBox = document.createElement('input')
+    const restoreButton = document.createElement('button')
+    const deleteButton = document.createElement('button')
+
+    restoreButton.innerHTML = 'Restore Task'
+    deleteButton.innerHTML = 'Delete Task'
+
+    checkBox.type = 'checkbox'
+    checkBox.style.marginRight = '5px'
+    restoreButton.style.marginLeft = '45%'
+
+    const addlist = document.createElement('li')
+    addlist.setAttribute('data-index', index)
+    addlist.classList.add('list-item')
+
+    addlist.appendChild(checkBox)
+    addlist.appendChild(document.createTextNode(checkList.name))
+    addlist.appendChild(restoreButton)
+    addlist.appendChild(deleteButton)
+
+    checkBox.checked = checkList.completed
+    addlist.classList.toggle('completed', checkList.completed)
+
+    checkBox.addEventListener('click', checkboxCross)
+
+    restoreButton.addEventListener('click', function () {
+      const listItem = this.parentNode
+      const todoIndex = listItem.getAttribute('data-index')
+      todos[todoIndex].trashed = false
+      listItem.remove()
+      saveTodos()
+    })
+    deleteButton.addEventListener('click', function () {
+      const listItem = this.parentNode
+      const todoIndex = listItem.getAttribute('data-index')
+      listItem.remove()
+
+      todos.splice(todoIndex, 1)
+
+      saveTodos()
+    })
+
+    emptyList.appendChild(addlist)
+  })
+}
 // --------------------------------------------------------------Showing Completed Task------------------------------------------//
 
 allTaskbtn.addEventListener('click', showAllTasks)
@@ -259,9 +313,10 @@ addButton.addEventListener('click', function () {
       deleteTask(todoIndex)
     })
     emptyList.appendChild(addlist)
-    inputField.value = ''
-    todos.push({ name: inputFieldValue, completed: false })
+
+    todos.push({ name: inputFieldValue, completed: false, trashed: false })
     saveTodos()
+    inputField.value = ''
   } else {
     alert('Enter a task name.')
   }
