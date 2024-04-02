@@ -112,9 +112,9 @@ completedTaskbtn.addEventListener('click', showCompletedTask)
 
 function showCompletedTask() {
   emptyList.innerHTML = ''
-  const completedTask = todos.filter((todo) => todo.completed)
+  const completedTasks = todos.filter((todo) => todo.completed && !todo.trashed)
 
-  completedTask.forEach((checkList, index) => {
+  completedTasks.forEach((checkList, index) => {
     const checkBox = document.createElement('input')
     const trashButton = document.createElement('button')
 
@@ -290,16 +290,23 @@ addButton.addEventListener('click', function () {
   const inputFieldValue = inputField.value.trim()
 
   if (inputFieldValue !== '') {
+    const newTask = { name: inputFieldValue, completed: false, trashed: false }
+
+    todos.push(newTask)
+
+    saveTodos()
+
+    const addlist = document.createElement('li')
     const checkBox = document.createElement('input')
     const trashButton = document.createElement('button')
 
+    checkBox.type = 'checkbox'
+    checkBox.style.marginRight = '5px'
+    trashButton.style.marginLeft = '65%'
     trashButton.innerHTML = 'Trash Task'
 
-    checkBox.type = 'checkbox'
-    checkBox.style.marginRight = '5px' // going add this to css remove here
-    trashButton.style.marginLeft = '65%' // going add this to css remove here'
-
-    const addlist = document.createElement('li')
+    addlist.setAttribute('data-index', todos.length - 1)
+    addlist.classList.add('list-item')
     addlist.appendChild(checkBox)
     addlist.appendChild(document.createTextNode(inputFieldValue))
     addlist.appendChild(trashButton)
@@ -312,10 +319,9 @@ addButton.addEventListener('click', function () {
       listItem.remove()
       deleteTask(todoIndex)
     })
+
     emptyList.appendChild(addlist)
 
-    todos.push({ name: inputFieldValue, completed: false, trashed: false })
-    saveTodos()
     inputField.value = ''
   } else {
     alert('Enter a task name.')
