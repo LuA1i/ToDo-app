@@ -12,11 +12,26 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(-45deg, #462f28, #3c0e20, #05212b, #0b4c3d);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
   height: 100vh;
 }
 
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .container {
-  border: 1px solid rgb(92, 91, 91);
+  border: 1px solid rgb(6, 6, 6);
   padding: 2%;
   border-radius: 5px;
 }
@@ -32,6 +47,15 @@ h1 {
   padding-bottom: 2%;
 }
 
+.input_1 input,
+.input_2 input {
+  background: transparent;
+  outline: none;
+  border: 1px solid black;
+  border-radius: 5px;
+  color: white;
+}
+
 #list_adder li {
   padding-top: 3%;
   list-style: none;
@@ -39,4 +63,82 @@ h1 {
 
 .completed {
   text-decoration: line-through;
+}
+
+#add_item {
+  width: 100px;
+  cursor: pointer;
+  outline: none;
+  background-color: chartreuse;
+  border: 1px solid chartreuse;
+  border-radius: 5px;
+  transition: 0.3s ease;
+}
+
+#add_item:hover {
+  background-color: rgb(66, 105, 66);
+  color: white;
+}
+
+#search_item {
+  width: 100px;
+  cursor: pointer;
+  outline: none;
+  background-color: black;
+  border: 1px solid black;
+  color: white;
+  border-radius: 5px;
+  transition: 0.3s ease;
+}
+
+#search_item:hover {
+  color: black;
+  background-color: white;
+}
+
+#see_trashed_tasks {
+  background-color: red;
+  border: 1px solid red;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+#see_trashed_tasks:hover {
+  background-color: rgb(80, 0, 0);
+}
+
+#see_completed_tasks {
+  background-color: turquoise;
+  border: 1px solid turquoise;
+  border-radius: 5px;
+  color: black;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+#see_completed_tasks:hover {
+  background-color: rgb(56, 133, 184);
+}
+
+#see_all_tasks {
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(74, 73, 73);
+  border-radius: 5px;
+  color: black;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+#see_active_tasks {
+  background-color: rgb(3, 238, 3);
+  border: 1px solid rgb(6, 225, 6);
+  border-radius: 5px;
+  color: black;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.list-item button {
+  cursor: pointer;
 }
